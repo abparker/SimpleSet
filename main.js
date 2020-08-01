@@ -7,7 +7,7 @@ class Card {
     }
 
     toString() {
-        let str = `${this.number} ${this.color} ${this.shape}`;
+        let str = `${this.number} ${this.fill} ${this.color} ${this.shape}`;
         if (this.number > 1) {
             str += "s"
         }
