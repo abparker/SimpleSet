@@ -34,7 +34,6 @@ window.addEventListener('load', (event) => {
     }
 
     // shuffle the deck to be in a random order
-    
     for(let i = drawPile.length - 1; i > 0; i--){
         const j = Math.floor(Math.random() * i);
         const temp = drawPile[i];
