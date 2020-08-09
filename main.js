@@ -35,7 +35,12 @@ window.addEventListener('load', (event) => {
 
     // TODO: shuffle the deck to be in a random order, see:
     // https://medium.com/@nitinpatel_20236/how-to-shuffle-correctly-shuffle-an-array-in-javascript-15ea3f84bfb
-
+    for(let i = drawPile.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * i);
+        const temp = drawPile[i];
+        drawPile[i] = drawPile[j];
+        drawPile[j] = temp;
+    }
 
 
 
