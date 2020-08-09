@@ -9,7 +9,7 @@ class Card {
     toString() {
         let str = `${this.number} ${this.fill} ${this.color} ${this.shape}`;
         if (this.number > 1) {
-            str += "s"
+            str += "s";
         }
         return str;
     }
