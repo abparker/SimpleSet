@@ -1,0 +1,9 @@
+.card {
+    /*
+    TODO: Give the card shapes an outline and arrange them in a 4x3 grid. 
+          Also set the width and height of the elements to make them card-shaped.
+    */
+}
+.selected {
+    background-color: #ffff00;
+}
