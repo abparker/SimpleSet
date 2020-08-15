@@ -41,12 +41,70 @@ window.addEventListener('load', (event) => {
         drawPile[j] = temp;
     }
 
+    // Do all this whenever the user clicks on a card
+    function processClick(event) {
+        // store the DOM element the user clicked on
+        let cardDiv = event.srcElement;
 
+        // Toggle whether the clicked card should show as selected
+        let isSelected = cardDiv.classList.contains("selected");
+        if (isSelected) {
+            cardDiv.classList.remove("selected");
+        }
+        else {
+            cardDiv.classList.add("selected");
+            // If three cards are selected, time to do special stuff
+            let selectedCardDivs = document.querySelectorAll(".card.selected");
+            if (selectedCardDivs.length == 3) {
+                if (true){  // TODO: check if the three selected cards are a set
+                    // Remove the set and deal new cards until there are 12 on the table
+                    for (let div of selectedCardDivs) {
+                        div.remove();
+                    }
+                    while (document.querySelectorAll(".card").length < 12 && drawPile.length > 0) {
+                        dealCard();
+                    }
+                }
+            }
+            else if (selectedCardDivs.length > 3) {
+                // Someone managed to select more than three by accident, just undo all that
+                for (let div of selectedCardDivs) {
+                    div.classList.remove("selected");
+                }
+            }
+        }
+    }
 
-    document.getElementById("show-twelve").addEventListener('click', (event) => {
-        document.getElementById("card-list").innerHTML = "";
-        for (let i=0; i<12; i++) {
-            document.getElementById("card-list").innerHTML += drawPile[i].toString() + "<br>";
+    function dealCard() {
+        if (drawPile.length == 0){
+            throw "End of Deck";
+        }
+        let cardTable = document.getElementById("card-table")
+        const card = drawPile.pop();
+
+        let cardDiv = document.createElement("div");
+        cardDiv.classList.add("card");
+        cardDiv.innerHTML = card.toString();
+        cardDiv.addEventListener('click', processClick);
+        
+        cardTable.appendChild(cardDiv);
+
+        // DEBUG: show how many cards remain in the deck
+        console.log(drawPile.length);
+    }
+
+    // Do this whenever the user clicks the Deal button
+    document.getElementById("deal-button").addEventListener('click', (event) => {
+        let numToDeal = 3;
+        if (document.querySelectorAll(".card").length == 0) {
+            numToDeal = 12;
+        }
+        for (let i=0; i<numToDeal; i++) {
+            if (drawPile.length ==0) {
+                console.log("No more cards!");
+                break;
+            }
+            dealCard();
         }
     });
 });
