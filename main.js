@@ -45,6 +45,9 @@ window.addEventListener('load', (event) => {
 
     // determines if 3 selected cards make a Set
     function isSet(cardArray){
+        if (cardArray.length != 3) {
+          throw "Length of cardArray is not 3";  
+        }
         for (let prop in cardArray[0]) {
             if (prop == "DOM_element") {
                 continue;
