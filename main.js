@@ -4,6 +4,7 @@ class Card {
         this.fill = fill;
         this.color = color;
         this.shape = shape;
+        this.DOM_element = null;
     }
 
     toString() {
@@ -18,6 +19,7 @@ class Card {
 
 window.addEventListener('load', (event) => {
     let drawPile = [];
+    let tableCards = [];
     const numbers = [1, 2, 3];
     const fills = ["Empty", "Dotted", "Filled"];
     const colors = ["Blue", "Orange", "Lime"];
@@ -55,15 +57,39 @@ window.addEventListener('load', (event) => {
             cardDiv.classList.add("selected");
             // If three cards are selected, time to do special stuff
             let selectedCardDivs = document.querySelectorAll(".card.selected");
-            if (selectedCardDivs.length == 3) {
+            let selectedCards = [];
+            for (let card of tableCards) {
+                for (let el of selectedCardDivs) {
+                    if (card.DOM_element === el) {
+                        selectedCards.push(card);
+                    }
+                }
+            }
+            if (selectedCardDivs.length != selectedCards.length) {
+                throw "Array of selected cards does not match array of selected card-DOM-elements";
+            }
+            if (selectedCards.length == 3) {
+                console.log(selectedCards);  // DEBUG: probably delete this line once set-checking is done
                 if (true){  // TODO: check if the three selected cards are a set
                     // Remove the set and deal new cards until there are 12 on the table
                     for (let div of selectedCardDivs) {
                         div.remove();
                     }
+                    for (let card of selectedCards) {
+                        tableCards = tableCards.filter(function(value, index, arr) {
+                            return value != card;
+                        });
+                    }
                     while (document.querySelectorAll(".card").length < 12 && drawPile.length > 0) {
                         dealCard();
                     }
+                }
+                else {
+                    // Deselect the selected cards and provide feedback that they did not make a set
+                    for (let div of selectedCardDivs) {
+                        div.classList.remove("selected");
+                    }
+                    console.log("Not a set!");
                 }
             }
             else if (selectedCardDivs.length > 3) {
@@ -79,12 +105,14 @@ window.addEventListener('load', (event) => {
         if (drawPile.length == 0){
             throw "End of Deck";
         }
-        let cardTable = document.getElementById("card-table")
+        let cardTable = document.getElementById("card-table");
         const card = drawPile.pop();
 
         let cardDiv = document.createElement("div");
         cardDiv.classList.add("card");
         cardDiv.innerHTML = card.toString();
+        card.DOM_element = cardDiv;
+        tableCards.push(card);
         cardDiv.addEventListener('click', processClick);
         
         cardTable.appendChild(cardDiv);
