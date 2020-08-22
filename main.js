@@ -43,6 +43,29 @@ window.addEventListener('load', (event) => {
         drawPile[j] = temp;
     }
 
+    // determines if 3 selected cards make a Set
+    function isSet(cardArray){
+        if (cardArray.length != 3) {
+          throw "Length of cardArray is not 3";  
+        }
+        for (let prop in cardArray[0]) {
+            if (prop == "DOM_element") {
+                continue;
+            }
+            if (cardArray[0][prop] == cardArray[1][prop] && cardArray[0][prop] == cardArray[2][prop]) {
+                console.log("All the " + prop + "s are the same!");
+            }
+            else if (cardArray[0][prop] != cardArray[1][prop] && cardArray[0][prop] !== cardArray[2][prop] &&
+                     cardArray[1][prop] != cardArray[2][prop]) {
+                console.log("All the " + prop + "s are different!");
+            }
+            else {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Do all this whenever the user clicks on a card
     function processClick(event) {
         // store the DOM element the user clicked on
@@ -70,7 +93,7 @@ window.addEventListener('load', (event) => {
             }
             if (selectedCards.length == 3) {
                 console.log(selectedCards);  // DEBUG: probably delete this line once set-checking is done
-                if (true){  // TODO: check if the three selected cards are a set
+                if (isSet(selectedCards)){
                     // Remove the set and deal new cards until there are 12 on the table
                     for (let div of selectedCardDivs) {
                         div.remove();
