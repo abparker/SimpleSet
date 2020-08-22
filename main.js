@@ -89,7 +89,7 @@ window.addEventListener('load', (event) => {
                     for (let div of selectedCardDivs) {
                         div.classList.remove("selected");
                     }
-                    console.log("Not a set!")
+                    console.log("Not a set!");
                 }
             }
             else if (selectedCardDivs.length > 3) {
@@ -105,7 +105,7 @@ window.addEventListener('load', (event) => {
         if (drawPile.length == 0){
             throw "End of Deck";
         }
-        let cardTable = document.getElementById("card-table")
+        let cardTable = document.getElementById("card-table");
         const card = drawPile.pop();
 
         let cardDiv = document.createElement("div");
